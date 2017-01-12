@@ -1,13 +1,19 @@
 <resources>
-  <string name="app_name">Stock Hawk</string>
-
-  <string name="action_example">Example action</string>
-
-  <string name="action_settings">Settings</string>
-  <string name="action_change_units">Change Units</string>
-  <string name="symbol_search">Symbol Search</string>
-  <string name="content_test">Search for a Stock Symbol</string>
-  <string name="input_hint">FB</string>
-  <string name="input_prefill"></string>
-  <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+    <string name="app_name">Stock Hawk</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_change_units">Change Units</string>
+    <string name="symbol_search">Symbol Search</string>
+    <string name="content_test">Search for a Stock Symbol</string>
+    <string name="input_hint" translatable="false">FB</string>
+    <string name="input_prefill" translatable="false"></string>
+    <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+    <string name="invalid_symbol_toast">That didn\'t work.  Please add a valid stock symbol.</string>
+    <string name="select_for_stock_history">Select for Price History of</string>
+    <string name="load_stock_quotes_failed">Unable to load historical stock quotes.</string>
+    <string name="base_url_yahoo_finance" translatable="false">https://query.yahooapis.com/</string>
+    <string name="widget_title">Stock Prices</string>
+    <string name="empty_stock_list">Stocks could not be retrieved.</string>
+    <string name="stock_already_saved">This stock is already saved!</string>
+    <string name="example_stock_symbols" translatable="false">>\"YHOO\",\"AAPL\",\"GOOG\",\"MSFT\"</string>
+    <string name="item_description_additional_info" formatted="false">\"%s\" which is currently worth \"%s\" which is a change of \"%s\" since yesterday.</string>
 </resources>

@@ -6,6 +6,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -19,23 +20,31 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.gcm.GcmNetworkManager;
+import com.google.android.gms.gcm.PeriodicTask;
+import com.google.android.gms.gcm.Task;
+
+import java.util.List;
+
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.melnykov.fab.FloatingActionButton;
+
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
+import com.sam_chordas.android.stockhawk.interfaces.IHandleItems;
+import com.sam_chordas.android.stockhawk.model.Quote;
 import com.sam_chordas.android.stockhawk.rest.QuoteCursorAdapter;
 import com.sam_chordas.android.stockhawk.rest.RecyclerViewItemClickListener;
 import com.sam_chordas.android.stockhawk.rest.Utils;
 import com.sam_chordas.android.stockhawk.service.StockIntentService;
 import com.sam_chordas.android.stockhawk.service.StockTaskService;
-import com.google.android.gms.gcm.GcmNetworkManager;
-import com.google.android.gms.gcm.PeriodicTask;
-import com.google.android.gms.gcm.Task;
-import com.melnykov.fab.FloatingActionButton;
+import com.sam_chordas.android.stockhawk.task.HistoricalDataLoaderTask;
 import com.sam_chordas.android.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
 
-public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, IHandleItems<Quote> {
 
   /**
    * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -84,14 +93,18 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(this,
             new RecyclerViewItemClickListener.OnItemClickListener() {
               @Override public void onItemClick(View v, int position) {
-                //TODO:
-                // do something on item click
+                v.setBackgroundColor(Color.BLUE);
+                Intent lineGraphIntent = new Intent(MyStocksActivity.this, LineGraphActivity.class);
+                TextView symbol = (TextView) v.findViewById(R.id.stock_symbol);
+                lineGraphIntent.putExtra(LineGraphActivity.STOCK_SYMBOL_ARG, symbol.getText());
+                startActivity(lineGraphIntent);
+                v.setBackgroundColor(0);
               }
             }));
     recyclerView.setAdapter(mCursorAdapter);
 
-
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    fab.setContentDescription(getString(R.string.symbol_search));
     fab.attachToRecyclerView(recyclerView);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -108,16 +121,14 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                       new String[] { input.toString() }, null);
                   if (c.getCount() != 0) {
                     Toast toast =
-                        Toast.makeText(MyStocksActivity.this, "This stock is already saved!",
+                        Toast.makeText(MyStocksActivity.this, R.string.stock_already_saved,
                             Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                     toast.show();
                     return;
                   } else {
                     // Add the stock to DB
-                    mServiceIntent.putExtra("tag", "add");
-                    mServiceIntent.putExtra("symbol", input.toString());
-                    startService(mServiceIntent);
+                    HistoricalDataLoaderTask.Run(MyStocksActivity.this, MyStocksActivity.this, input.toString());
                   }
                 }
               })
@@ -187,11 +198,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
     if (id == R.id.action_change_units){
       // this is for changing stock changes from percent value to dollar value
       Utils.showPercent = !Utils.showPercent;
@@ -223,4 +229,21 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     mCursorAdapter.swapCursor(null);
   }
 
+  @Override
+  public void handleItems(List<Quote> items) {
+      if (items == null)
+      {
+          invalidStockToast();
+          return;
+      }
+
+      String symbol = items.get(0).getSymbol();
+      mServiceIntent.putExtra("tag", "add");
+      mServiceIntent.putExtra("symbol", symbol);
+      startService(mServiceIntent);
+  }
+
+    public void invalidStockToast(){
+        Toast.makeText(mContext, getString(R.string.invalid_symbol_toast), Toast.LENGTH_SHORT).show();
+    }
 }

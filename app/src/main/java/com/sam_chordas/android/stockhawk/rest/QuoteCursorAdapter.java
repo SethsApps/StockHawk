@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sam_chordas.android.stockhawk.R;
@@ -70,6 +71,13 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
     } else{
       viewHolder.change.setText(cursor.getString(cursor.getColumnIndex("change")));
     }
+
+    viewHolder.stockQuote.setContentDescription(
+            viewHolder.stockQuoteContentDescription
+                    + " " + viewHolder.symbol.getText()
+                    + " which is currently worth " + viewHolder.bidPrice.getText()
+                    + " which is a change of " + viewHolder.change.getText()
+                    + " since yesterday.");
   }
 
   @Override public void onItemDismiss(int position) {
@@ -86,15 +94,20 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
 
   public static class ViewHolder extends RecyclerView.ViewHolder
       implements ItemTouchHelperViewHolder, View.OnClickListener{
+    public final LinearLayout stockQuote;
     public final TextView symbol;
     public final TextView bidPrice;
     public final TextView change;
+    public final String stockQuoteContentDescription;
     public ViewHolder(View itemView){
       super(itemView);
-      symbol = (TextView) itemView.findViewById(R.id.stock_symbol);
+      stockQuote = (LinearLayout) itemView.findViewById(R.id.stock_quote);
+      symbol     = (TextView) itemView.findViewById(R.id.stock_symbol);
       symbol.setTypeface(robotoLight);
-      bidPrice = (TextView) itemView.findViewById(R.id.bid_price);
-      change = (TextView) itemView.findViewById(R.id.change);
+      bidPrice   = (TextView) itemView.findViewById(R.id.bid_price);
+      change     = (TextView) itemView.findViewById(R.id.change);
+
+      stockQuoteContentDescription = itemView.getResources().getString(R.string.select_for_stock_history);
     }
 
     @Override
