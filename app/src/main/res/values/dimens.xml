@@ -7,6 +7,25 @@
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="navigation_drawer_width">240dp</dimen>
 
+    <dimen name="widget_min_height">160dp</dimen>
+    <dimen name="widget_min_width">240dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="widget_margin_side">2dp</dimen>
     <dimen name="widget_header_padding">8dp</dimen>
+    <dimen name="graph_padding">10dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="stock_quote_height">60dp</dimen>
+    <dimen name="stock_quote_padding_left">8dp</dimen>
+    <dimen name="stock_quote_padding_right">8dp</dimen>
+    <dimen name="stock_quote_padding_start">8dp</dimen>
+    <dimen name="stock_quote_padding_end">8dp</dimen>
+    <dimen name="stock_quote_price_padding_right">10sp</dimen>
+    <dimen name="stock_quote_price_padding_end">10sp</dimen>
+    <dimen name="stock_quote_change_padding_left">3dp</dimen>
+    <dimen name="stock_quote_change_padding_right">3dp</dimen>
+    <dimen name="stock_quote_change_padding_start">3dp</dimen>
+    <dimen name="stock_quote_change_padding_end">3dp</dimen>
+    <dimen name="corners_percent_change_pill">4dp</dimen>
+    <dimen name="corners_percent_change_pill_green">4dp</dimen>
+    <dimen name="corners_percent_change_pill_red">4dp</dimen>
 </resources>

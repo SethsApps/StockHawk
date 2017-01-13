@@ -5,7 +5,7 @@
 
     <com.db.chart.view.LineChartView
         android:id="@+id/linechart"
-        android:padding="10dp"
+        android:padding="@dimen/graph_padding"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

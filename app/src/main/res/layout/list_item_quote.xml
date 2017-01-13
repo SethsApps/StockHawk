@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/stock_quote"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
+    android:layout_height="@dimen/stock_quote_height"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
+    android:paddingLeft="@dimen/stock_quote_padding_left"
+    android:paddingRight="@dimen/stock_quote_padding_right"
+    android:paddingStart="@dimen/stock_quote_padding_start"
+    android:paddingEnd="@dimen/stock_quote_padding_end"
     >
   <TextView
       android:id="@+id/stock_symbol"
@@ -30,8 +30,8 @@
         style="@style/BidPriceTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="10sp"
-        android:paddingEnd="10sp"
+        android:paddingRight="@dimen/stock_quote_price_padding_right"
+        android:paddingEnd="@dimen/stock_quote_price_padding_end"
         tools:text="1000.00"
         />
     <TextView
@@ -40,10 +40,10 @@
         style="@style/PercentChangeTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:paddingStart="3dp"
-        android:paddingEnd="3dp"
+        android:paddingLeft="@dimen/stock_quote_change_padding_left"
+        android:paddingRight="@dimen/stock_quote_change_padding_right"
+        android:paddingStart="@dimen/stock_quote_change_padding_start"
+        android:paddingEnd="@dimen/stock_quote_change_padding_end"
         tools:text="100%"
         />
   </LinearLayout>

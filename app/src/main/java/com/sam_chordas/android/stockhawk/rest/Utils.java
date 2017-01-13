@@ -48,12 +48,26 @@ public class Utils {
     return batchOperations;
   }
 
-  public static String truncateBidPrice(String bidPrice){
+  public static String truncateBidPrice(JSONObject jsonObject) throws JSONException {
+    String bidPrice = jsonObject.getString("Bid");
+    if (bidPrice == null || bidPrice.equals("null"))
+    {
+      bidPrice = jsonObject.getString("LastTradePriceOnly");
+      if (bidPrice == null || bidPrice.equals("null"))
+      {
+        bidPrice = "0";
+      }
+    }
+
     bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
     return bidPrice;
   }
 
   public static String truncateChange(String change, boolean isPercentChange){
+    if (change == null || change.equals("null"))
+    {
+      change = "0";
+    }
     String weight = change.substring(0,1);
     String ampersand = "";
     if (isPercentChange){
@@ -76,7 +90,7 @@ public class Utils {
     try {
       String change = jsonObject.getString("Change");
       builder.withValue(QuoteColumns.SYMBOL, jsonObject.getString("symbol"));
-      builder.withValue(QuoteColumns.BIDPRICE, truncateBidPrice(jsonObject.getString("Bid")));
+      builder.withValue(QuoteColumns.BIDPRICE, truncateBidPrice(jsonObject));
       builder.withValue(QuoteColumns.PERCENT_CHANGE, truncateChange(
           jsonObject.getString("ChangeinPercent"), true));
       builder.withValue(QuoteColumns.CHANGE, truncateChange(change, false));
